@@ -1,79 +1,100 @@
 int screenSize = 400;
 Particle [] particles;
-public void setup()
-{
+public void setup() {
 	size(screenSize, screenSize);
-	background(0);
-	particles = new Particle[20];
-	for(int n = 0; n < particles.length; n++)
-	{
+	particles = new Particle[100];
+	for(int n = 0; n < particles.length; n++) {
 		particles[n] = new NormalParticle();
 	}
+	particles[0] = new OddballParticle();
+	particles[1] = new JumboParticle();
 }
-void draw()
-{
-	for(int n = 0; n < particles.length; n++)
-	{
+public void draw() {
+	background(0);
+	for(int n = 0; n < particles.length; n++) {
 		particles[n].move();
 		particles[n].show();
 	}
-	particles[0] = new OddballParticle();
 }
-class NormalParticle implements Particle
-{
+class NormalParticle implements Particle {
 	double nX, nY, nSpeed, nAngle;
-	int nSize;
+	float nSize;
 	color nColor = color(255, 0, 0);
-	NormalParticle()
-	{
+	NormalParticle() {
 		nX = screenSize/2;
 		nY = screenSize/2;
-		nSize = 10;
-		nSpeed = (int)(Math.random()*10) + 1;
-		nAngle = (int)(Math.random()*(2*Math.PI));
+		nSpeed = ((Math.random()*5) + 1);
+		nAngle = (Math.random()*(2*Math.PI));
+		nSize = 2;
 	}
-	public void move()
-	{
+	public void move() {
+		if(nX > (screenSize + 10) || nY > (screenSize + 10) || nX < -(screenSize + 10) || nY < -(screenSize + 10)) {
+			nX = screenSize/2;
+			nY = screenSize/2;
+			nSize = 2;
+			nSpeed = ((Math.random()*5) + 1);
+			nAngle = (Math.random()*(2*Math.PI));
+		}
 		nX += (Math.cos(nAngle)*nSpeed);
 		nY += (Math.sin(nAngle)*nSpeed);
+		nSize += .05;
 	}
-	public void show()
-	{
+	public void show() {
 		fill(nColor);
-		ellipse((float)nX, (float)nY, nSize, nSize);
+		ellipse((float)nX, (float)nY, (int)nSize, (int)nSize);
 	}
 }
-interface Particle
-{
+interface Particle {
 	public void move();
 	public void show();
 }
-class OddballParticle implements Particle
-{
+class OddballParticle implements Particle {
 	double oX, oY, oSpeed, oAngle;
-	int oSize;
+	float oSize;
 	color oColor = color(0, 0, 255);
-	OddballParticle()
-	{
+	OddballParticle() {
 		oX = screenSize/2;
 		oY = screenSize/2;
 		oSize = 10;
-		oSpeed = (int)(Math.random()*10) + 1;
+		oSpeed = ((Math.random()*3) + 1);
 		oAngle = Math.random()*(2*Math.PI);
 	}
-	public void move()
-	{
-		oX -= Math.cos(oAngle)*oSpeed;
-		oY += Math.sin(oAngle)*oSpeed;
+	public void move() {
+		if(oX > (screenSize + 10) || oY > (screenSize + 10) || oX < -(screenSize + 10) || oY < -(screenSize + 10)) {
+			oX = screenSize/2;
+			oY = screenSize/2;
+			oSize = 10;
+			oSpeed = ((Math.random()*3) + 1);
+			oAngle = Math.random()*(2*Math.PI);
+		}
+		oX += (Math.cos(oAngle)*oSpeed);
+		oY += (Math.sin(oAngle)*oSpeed);
+		oSize += .05;
 	}
-	public void show()
-	{
+	public void show() {
 		fill(oColor);
-		ellipse((float)oX, (float)oY, oSize, oSize);
+		rect((float)oX, (float)oY, (int)oSize, (int)oSize);
 	}
 }
-class JumboParticle //uses inheritance
+class JumboParticle extends NormalParticle
 {
-	//your code here
+	color jColor = color(0, 255, 0);
+	float jSize = 10;
+	JumboParticle() {
+		nColor = jColor;
+		nSize = jSize;
+	}
+	public void move() {
+		if(nX > (screenSize + 10) || nY > (screenSize + 10) || nX < -(screenSize + 10) || nY < -(screenSize + 10)) {
+			nX = screenSize/2;
+			nY = screenSize/2;
+			nSize = jSize;
+			nSpeed = ((Math.random()*5) + 1);
+			nAngle = (Math.random()*(2*Math.PI));
+		}
+		nX += (Math.cos(nAngle)*nSpeed);
+		nY += (Math.sin(nAngle)*nSpeed);
+		nSize += .05;
+	}
 }
 
