@@ -1,5 +1,6 @@
 int screenSize = 800;
 Particle [] particles;
+boolean catchJP = false;
 public void setup() {
 	size(screenSize, screenSize);
 	noStroke();
@@ -16,6 +17,12 @@ public void draw() {
 		particles[n].show();
 		particles[n].move();
 	}
+	fill(255);
+	rect(mouseX - 7.5, mouseY - 2.5, 15, 5);
+	rect(mouseX - 2.5, mouseY - 7.5, 5, 15);
+}
+void mousePressed() {
+	catchJP = true;
 }
 class NormalParticle implements Particle {
 	double nX, nY, nSpeed, nAngle;
@@ -90,12 +97,17 @@ class JumboParticle extends NormalParticle
 		nSpeed = jSpeed;
 	}
 	public void move() {
+		if(catchJP) {
+			nColor = 0;
+		}
 		if(nX > (screenSize + 20) || nY > (screenSize + 20) || nX < -20 || nY < -20) {
 			nX = screenSize/2;
 			nY = screenSize/2;
 			nSize = jSize;
 			nSpeed = ((Math.random()*2) + 1);
 			nAngle = (Math.random()*(2*Math.PI));
+			catchJP = false;
+			nColor = jColor;
 		}
 		nX += (Math.cos(nAngle)*nSpeed/2);
 		nY += (Math.sin(nAngle)*nSpeed/2);
