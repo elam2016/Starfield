@@ -1,8 +1,9 @@
-int screenSize = 400;
+int screenSize = 800;
 Particle [] particles;
 public void setup() {
 	size(screenSize, screenSize);
-	particles = new Particle[100];
+	noStroke();
+	particles = new Particle[screenSize/5];
 	for(int n = 0; n < particles.length; n++) {
 		particles[n] = new NormalParticle();
 	}
@@ -12,14 +13,14 @@ public void setup() {
 public void draw() {
 	background(0);
 	for(int n = 0; n < particles.length; n++) {
-		particles[n].move();
 		particles[n].show();
+		particles[n].move();
 	}
 }
 class NormalParticle implements Particle {
 	double nX, nY, nSpeed, nAngle;
 	float nSize;
-	color nColor = color(255, 0, 0);
+	color nColor = color(((int)(Math.random()*40 + 200)), ((int)(Math.random()*45 + 207)), ((int)(Math.random()*45 + 170)));
 	NormalParticle() {
 		nX = screenSize/2;
 		nY = screenSize/2;
@@ -34,6 +35,7 @@ class NormalParticle implements Particle {
 			nSize = 2;
 			nSpeed = ((Math.random()*5) + 1);
 			nAngle = (Math.random()*(2*Math.PI));
+			nColor = color(((int)(Math.random()*40 + 200)), ((int)(Math.random()*45 + 180)), ((int)(Math.random()*45 + 170)));
 		}
 		nX += (Math.cos(nAngle)*nSpeed);
 		nY += (Math.sin(nAngle)*nSpeed);
@@ -51,13 +53,14 @@ interface Particle {
 class OddballParticle implements Particle {
 	double oX, oY, oSpeed, oAngle;
 	float oSize;
-	color oColor = color(0, 0, 255);
+	color oColor = color(((int)(Math.random()*50 + 200)), ((int)(Math.random()*45 + 140)), ((int)(Math.random()*45 + 80)));
 	OddballParticle() {
 		oX = screenSize/2;
 		oY = screenSize/2;
 		oSize = 10;
-		oSpeed = ((Math.random()*3) + 1);
+		oSpeed = ((Math.random()*2) + 1);
 		oAngle = Math.random()*(2*Math.PI);
+		oColor = color(((int)(Math.random()*50 + 190)), ((int)(Math.random()*45 + 140)), ((int)(Math.random()*45 + 80)));
 	}
 	public void move() {
 		if(oX > (screenSize + 10) || oY > (screenSize + 10) || oX < -10 || oY < -10) {
@@ -78,7 +81,7 @@ class OddballParticle implements Particle {
 }
 class JumboParticle extends NormalParticle
 {
-	color jColor = color(0, 255, 0);
+	color jColor = color(255, 82, 0);
 	float jSize = 10;
 	double jSpeed = ((Math.random()*2) + 1);
 	JumboParticle() {
