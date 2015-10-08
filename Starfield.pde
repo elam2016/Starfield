@@ -28,7 +28,7 @@ class NormalParticle implements Particle {
 		nSize = 2;
 	}
 	public void move() {
-		if(nX > (screenSize + 10) || nY > (screenSize + 10) || nX < -(screenSize + 10) || nY < -(screenSize + 10)) {
+		if(nX > (screenSize + 10) || nY > (screenSize + 10) || nX < -10 || nY < -10) {
 			nX = screenSize/2;
 			nY = screenSize/2;
 			nSize = 2;
@@ -60,7 +60,7 @@ class OddballParticle implements Particle {
 		oAngle = Math.random()*(2*Math.PI);
 	}
 	public void move() {
-		if(oX > (screenSize + 10) || oY > (screenSize + 10) || oX < -(screenSize + 10) || oY < -(screenSize + 10)) {
+		if(oX > (screenSize + 10) || oY > (screenSize + 10) || oX < -10 || oY < -10) {
 			oX = screenSize/2;
 			oY = screenSize/2;
 			oSize = 10;
@@ -80,21 +80,22 @@ class JumboParticle extends NormalParticle
 {
 	color jColor = color(0, 255, 0);
 	float jSize = 10;
+	double jSpeed = ((Math.random()*2) + 1);
 	JumboParticle() {
 		nColor = jColor;
 		nSize = jSize;
+		nSpeed = jSpeed;
 	}
 	public void move() {
-		if(nX > (screenSize + 10) || nY > (screenSize + 10) || nX < -(screenSize + 10) || nY < -(screenSize + 10)) {
+		if(nX > (screenSize + 20) || nY > (screenSize + 20) || nX < -20 || nY < -20) {
 			nX = screenSize/2;
 			nY = screenSize/2;
 			nSize = jSize;
-			nSpeed = ((Math.random()*5) + 1);
+			nSpeed = ((Math.random()*2) + 1);
 			nAngle = (Math.random()*(2*Math.PI));
 		}
-		nX += (Math.cos(nAngle)*nSpeed);
-		nY += (Math.sin(nAngle)*nSpeed);
+		nX += (Math.cos(nAngle)*nSpeed/2);
+		nY += (Math.sin(nAngle)*nSpeed/2);
 		nSize += .05;
 	}
 }
-
