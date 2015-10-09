@@ -8,8 +8,8 @@ public void setup() {
 	for(int n = 0; n < particles.length; n++) {
 		particles[n] = new NormalParticle();
 	}
-	particles[0] = new OddballParticle();
 	particles[1] = new JumboParticle();
+	particles[0] = new OddballParticle();
 }
 public void draw() {
 	background(0);
@@ -18,11 +18,16 @@ public void draw() {
 		particles[n].move();
 	}
 	fill(255);
-	rect(mouseX - 7.5, mouseY - 2.5, 15, 5);
-	rect(mouseX - 2.5, mouseY - 7.5, 5, 15);
+	int targetSizeX = 25;
+	int targetSizeY = 2;
+	rect(mouseX - targetSizeX/2, mouseY - targetSizeY/2, targetSizeX, targetSizeY);
+	rect(mouseX - targetSizeY/2, mouseY - targetSizeX/2, targetSizeY, targetSizeX);
 }
 void mousePressed() {
 	catchJP = true;
+}
+void mouseReleased() {
+	catchJP = false;
 }
 class NormalParticle implements Particle {
 	double nX, nY, nSpeed, nAngle;
@@ -89,7 +94,7 @@ class OddballParticle implements Particle {
 class JumboParticle extends NormalParticle
 {
 	color jColor = color(255, 82, 0);
-	float jSize = 10;
+	float jSize = 1;
 	double jSpeed = ((Math.random()*2) + 1);
 	JumboParticle() {
 		nColor = jColor;
@@ -97,10 +102,7 @@ class JumboParticle extends NormalParticle
 		nSpeed = jSpeed;
 	}
 	public void move() {
-		if(catchJP) {
-			nColor = 0;
-		}
-		if(nX > (screenSize + 20) || nY > (screenSize + 20) || nX < -20 || nY < -20) {
+		if(nX > (screenSize + 100) || nY > (screenSize + 100) || nX < -100 || nY < -100) {
 			nX = screenSize/2;
 			nY = screenSize/2;
 			nSize = jSize;
@@ -111,6 +113,9 @@ class JumboParticle extends NormalParticle
 		}
 		nX += (Math.cos(nAngle)*nSpeed/2);
 		nY += (Math.sin(nAngle)*nSpeed/2);
-		nSize += .05;
+		nSize += .4;		
+		if(catchJP && mouseX < (nX + nSize/2) && mouseX > (nX - nSize/2) && mouseY < (nY + nSize/2) && mouseY > (nY - nSize/2)) {
+			nColor = 0;
+		}
 	}
 }
