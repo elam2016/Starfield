@@ -1,4 +1,4 @@
-int screenSize = 800;
+int screenSize = 700;
 Particle [] particles;
 boolean catchJP = false;
 public void setup() {
